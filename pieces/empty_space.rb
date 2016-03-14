@@ -1,0 +1,3 @@
+class EmptySpace
+
+end
