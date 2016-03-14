@@ -14,6 +14,16 @@ class Board
     end
   end
 
+  def in_range?(pos)
+    x, y = pos
+    (0...@grid.size).include?(x) && (0...@grid.size).include?(y)
+  end
+
+  def all_pos
+    indices = (0...@grid.size).to_a
+    indices.product(indices)
+  end
+
   private
   def [](pos)
     row,col = pos
