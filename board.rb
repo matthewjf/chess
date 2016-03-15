@@ -1,3 +1,5 @@
+require_relative 'pieces.rb'
+
 class Board
   def initialize
     @grid = Array.new(8) {Array.new(8)}
@@ -24,7 +26,10 @@ class Board
     indices.product(indices)
   end
 
-  private
+  def empty?(pos)
+    self[pos].nil?
+  end
+  # private
   def [](pos)
     row,col = pos
     @grid[row][col]
@@ -33,5 +38,11 @@ class Board
   def []=(pos, piece)
     row,col = pos
     @grid[row][col] = piece
+  end
+
+  def populate(num = 12)
+    all_pos.shuffle.take(num).each do |row,col|
+      self[[row,col]] = Queen.new(self, [row,col], :black)
+    end
   end
 end

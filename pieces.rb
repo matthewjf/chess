@@ -1,3 +1,5 @@
 require_relative 'pieces/piece.rb'
 require_relative 'pieces/slidyable.rb'
 require_relative 'pieces/queen.rb'
+require_relative 'pieces/rook.rb'
+require_relative 'pieces/bishop.rb'
