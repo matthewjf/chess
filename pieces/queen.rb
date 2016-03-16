@@ -1,10 +1,15 @@
 class Queen < Piece
   include Slidyable
+  
   def moves
-    possible_moves = straight_moves + diagonal_moves
-    possible_moves.reject { |pos| piece_between?(pos) }
-    # do something about colors
+    get_moves(straight_moves + diagonal_moves)
   end
 
-
+  def to_s
+    if @color == :black
+      '♕'
+    else
+      '♛'
+    end
+  end
 end

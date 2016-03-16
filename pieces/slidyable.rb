@@ -26,17 +26,25 @@ module Slidyable
   end
 
   def piece_between?(new_pos)
-    row,col = @pos
-    new_row, new_col = new_pos
-    until row == new_row && col == new_col
-       unless @board.empty?([row, col]) || [row, col] == @pos
-        return true
-      end
-      row_vector = new_row <=> row
-      col_vector = new_col <=> row
-      row += row_vector
-      col += col_vector
+    cur_r,cur_c = @pos
+    new_r, new_c = new_pos
+    new_r += (cur_r <=> new_r)
+    new_c += (cur_c <=> new_c)
+    return false if [new_r, new_c] == @pos
+    if @board.empty?([new_r, new_c])
+      piece_between?([new_r, new_c])
+    else
+      true
     end
-    return false
+  end
+
+  def not_takeable?(new_pos)
+    @color == @board[new_pos].color
+  end
+
+  def get_moves(moves)
+    moves.reject do |pos|
+      piece_between?(pos) || not_takeable?(pos)
+    end
   end
 end
