@@ -9,10 +9,14 @@ class Piece
   end
 
   def valid_move?(end_pos)
-    moves.include?(end_pos) # && not in check && maybe something about checkmate not sure yet
+    moves.include?(end_pos) && !@board.in_check?(@color)
   end
 
   def valid_moves
     moves # something about check and checkmate (mabye)
+  end
+
+  def dup(board)
+    Piece.new(board,@pos,@color)
   end
 end

@@ -1,7 +1,6 @@
 class Pawn < Piece
-  def initialize(board, pos, color)
-    @moved = false
-    super(board, pos, color)
+  def moved?
+    (color == :black && pos[0] != 1) || (color == :white && pos[0] != 6)
   end
 
   def to_s
@@ -20,7 +19,7 @@ class Pawn < Piece
     if @board.empty?([new_r, cur_c])
       results << [new_r, cur_c]
       move_two = [new_r + dir, cur_c]
-      results << move_two unless @moved || !@board.empty?(move_two)
+      results << move_two unless moved? || !@board.empty?(move_two)
     end
 
     diag_left = [new_r, cur_c - 1]

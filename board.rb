@@ -31,8 +31,19 @@ class Board
     self[pos] = piece_type.new(self, pos, color)
   end
 
+  def dup
+    new_board = Board.new(false)
+    pieces.each do |piece|
+      new_board.place_piece(piece.pos, piece.class, piece.color)
+    end
+  end
+
+  def pieces
+    all_pos.reject { |pos| self.empty?(pos) }.map {|pos| self[pos]}
+  end
+
   def place_pieces(color)
-    place_pawns(color)
+    # place_pawns(color)
     place_base_row(color)
   end
 
@@ -59,6 +70,25 @@ class Board
 
   def rows
     @grid
+  end
+  def find_king(color)
+    all_pos.select do |pos|
+      self[pos].is_a?(King) && self[pos].color == color
+    end.first.flatten
+  end
+
+  def in_check?(color)
+    king_pos = find_king(color)
+    color == :white ? check_color = :black : check_color = :white
+    all_pieces(check_color).any? do |piece|
+      piece.valid_moves.include?(king_pos)
+    end
+  end
+
+  def all_pieces(color)
+    all_pos.select {|pos| self[pos].color == color}.map do |pos|
+      self[pos]
+    end
   end
 
   def checkmate?
